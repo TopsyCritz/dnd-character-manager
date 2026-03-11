@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Edit {{ character.name }} - D&D Character Manager{% endblock %}
+
+{% block content %}
+<div class="character-form-container">
+    <h2>Edit Character</h2>
+    <form method="POST" class="character-form">
+        <div class="form-group">
+            <label for="name">Character Name</label>
+            <input type="text" id="name" name="name" required maxlength="100" value="{{ character.name }}">
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-field">
+                <label for="strength">Strength</label>
+                <input type="number" id="strength" name="strength" min="1" max="30" value="{{ character.strength }}" required>
+            </div>
+            <div class="stat-field">
+                <label for="dexterity">Dexterity</label>
+                <input type="number" id="dexterity" name="dexterity" min="1" max="30" value="{{ character.dexterity }}" required>
+            </div>
+            <div class="stat-field">
+                <label for="constitution">Constitution</label>
+                <input type="number" id="constitution" name="constitution" min="1" max="30" value="{{ character.constitution }}" required>
+            </div>
+            <div class="stat-field">
+                <label for="intelligence">Intelligence</label>
+                <input type="number" id="intelligence" name="intelligence" min="1" max="30" value="{{ character.intelligence }}" required>
+            </div>
+            <div class="stat-field">
+                <label for="wisdom">Wisdom</label>
+                <input type="number" id="wisdom" name="wisdom" min="1" max="30" value="{{ character.wisdom }}" required>
+            </div>
+            <div class="stat-field">
+                <label for="charisma">Charisma</label>
+                <input type="number" id="charisma" name="charisma" min="1" max="30" value="{{ character.charisma }}" required>
+            </div>
+        </div>
+        
+        <p class="form-hint">Stats must be between 1 and 30</p>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{{ url_for('view_character', character_id=character.id) }}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
