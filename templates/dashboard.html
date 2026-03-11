@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - D&D Character Manager{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="dashboard-header">
+        <h2>Welcome, {{ user.email }}</h2>
+        <a href="{{ url_for('new_character') }}" class="btn btn-primary">Create New Character</a>
+    </div>
+
+    <h3>Your Characters</h3>
+    
+    {% if characters %}
+        <div class="character-grid">
+            {% for character in characters %}
+            <div class="character-card">
+                <h4>{{ character.name }}</h4>
+                <div class="character-stats-preview">
+                    <span>STR: {{ character.strength }}</span>
+                    <span>DEX: {{ character.dexterity }}</span>
+                    <span>CON: {{ character.constitution }}</span>
+                    <span>INT: {{ character.intelligence }}</span>
+                    <span>WIS: {{ character.wisdom }}</span>
+                    <span>CHA: {{ character.charisma }}</span>
+                </div>
+                <div class="character-actions">
+                    <a href="{{ url_for('view_character', character_id=character.id) }}" class="btn btn-small">View</a>
+                    <a href="{{ url_for('edit_character', character_id=character.id) }}" class="btn btn-small btn-secondary">Edit</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <p>You haven't created any characters yet.</p>
+            <a href="{{ url_for('new_character') }}" class="btn btn-primary">Create Your First Character</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
