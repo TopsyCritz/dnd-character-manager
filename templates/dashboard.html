@@ -16,14 +16,16 @@
             {% for character in characters %}
             <div class="character-card">
                 <h4>{{ character.name }}</h4>
+                <span class="character-level-small">Level {{ character.level }}</span>
                 <div class="character-stats-preview">
-                    <span>STR: {{ character.strength }}</span>
-                    <span>DEX: {{ character.dexterity }}</span>
-                    <span>CON: {{ character.constitution }}</span>
-                    <span>INT: {{ character.intelligence }}</span>
-                    <span>WIS: {{ character.wisdom }}</span>
-                    <span>CHA: {{ character.charisma }}</span>
+                    <span>STR: {% if character.str_mod >= 0 %}+{% endif %}{{ character.str_mod }}{% if character.str_proficient %}*{% endif %}</span>
+                    <span>DEX: {% if character.dex_mod >= 0 %}+{% endif %}{{ character.dex_mod }}{% if character.dex_proficient %}*{% endif %}</span>
+                    <span>CON: {% if character.con_mod >= 0 %}+{% endif %}{{ character.con_mod }}{% if character.con_proficient %}*{% endif %}</span>
+                    <span>INT: {% if character.int_mod >= 0 %}+{% endif %}{{ character.int_mod }}{% if character.int_proficient %}*{% endif %}</span>
+                    <span>WIS: {% if character.wis_mod >= 0 %}+{% endif %}{{ character.wis_mod }}{% if character.wis_proficient %}*{% endif %}</span>
+                    <span>CHA: {% if character.cha_mod >= 0 %}+{% endif %}{{ character.cha_mod }}{% if character.cha_proficient %}*{% endif %}</span>
                 </div>
+                <p class="prof-bonus-note">Prof: +{{ character.proficiency_bonus }}</p>
                 <div class="character-actions">
                     <a href="{{ url_for('view_character', character_id=character.id) }}" class="btn btn-small">View</a>
                     <a href="{{ url_for('edit_character', character_id=character.id) }}" class="btn btn-small btn-secondary">Edit</a>
@@ -31,6 +33,7 @@
             </div>
             {% endfor %}
         </div>
+        <p class="legend" style="margin-top: 1rem;">* = Proficient in saving throw</p>
     {% else %}
         <div class="empty-state">
             <p>You haven't created any characters yet.</p>

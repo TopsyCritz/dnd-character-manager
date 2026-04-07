@@ -16,6 +16,26 @@
     --border-color: #d4c4a8;
     --success-color: #27ae60;
     --error-color: #e74c3c;
+    --input-bg: #fff;
+    --input-text: #2c2c2c;
+    --stat-preview-bg: #e8e0c8;
+}
+
+[data-theme="dark"] {
+    --primary-color: #c9824a;
+    --primary-hover: #a66b3a;
+    --secondary-color: #3a3a3a;
+    --danger-color: #e74c3c;
+    --danger-hover: #c0392b;
+    --bg-color: #1a1a2e;
+    --card-bg: #16213e;
+    --text-color: #eaeaea;
+    --border-color: #3a3a5c;
+    --success-color: #2ecc71;
+    --error-color: #e74c3c;
+    --input-bg: #0f0f23;
+    --input-text: #eaeaea;
+    --stat-preview-bg: #2a2a4a;
 }
 
 body {
@@ -53,7 +73,8 @@ nav {
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 1.5rem;
+    gap: 1rem;
+    align-items: center;
 }
 
 .nav-links a {
@@ -66,6 +87,11 @@ nav {
 
 .nav-links a:hover {
     background-color: rgba(255,255,255,0.2);
+}
+
+.theme-toggle {
+    font-size: 1.3rem;
+    padding: 0.3rem 0.6rem !important;
 }
 
 main {
@@ -148,6 +174,10 @@ main {
     background-color: #333;
 }
 
+[data-theme="dark"] .btn-secondary:hover {
+    background-color: #555;
+}
+
 .btn-danger {
     background-color: var(--danger-color);
     color: #fff;
@@ -193,6 +223,8 @@ main {
     border: 1px solid var(--border-color);
     border-radius: 4px;
     font-size: 1rem;
+    background-color: var(--input-bg);
+    color: var(--input-text);
 }
 
 .auth-form button {
@@ -224,10 +256,22 @@ main {
     color: #155724;
 }
 
+[data-theme="dark"] .flash-success {
+    background-color: #1e4620;
+    border: 1px solid #2d5a2d;
+    color: #a8e6a8;
+}
+
 .flash-error {
     background-color: #f8d7da;
     border: 1px solid #f5c6cb;
     color: #721c24;
+}
+
+[data-theme="dark"] .flash-error {
+    background-color: #4a1c1c;
+    border: 1px solid #6b2a2a;
+    color: #f5a8a8;
 }
 
 .dashboard-header {
@@ -269,7 +313,7 @@ main {
 }
 
 .character-stats-preview span {
-    background-color: var(--bg-color);
+    background-color: var(--stat-preview-bg);
     padding: 0.25rem 0.5rem;
     border-radius: 3px;
 }
@@ -330,6 +374,8 @@ main {
     border-radius: 4px;
     font-size: 1rem;
     text-align: center;
+    background-color: var(--input-bg);
+    color: var(--input-text);
 }
 
 .form-hint {
@@ -391,7 +437,7 @@ main {
 }
 
 .stat-box {
-    background-color: var(--bg-color);
+    background-color: var(--stat-preview-bg);
     padding: 1.5rem;
     border-radius: 8px;
     text-align: center;
@@ -414,6 +460,107 @@ main {
 
 .delete-form {
     display: inline;
+}
+
+.stats-grid.with-proficiency {
+    gap: 1.5rem;
+}
+
+.stats-grid.with-proficiency .stat-field {
+    background-color: var(--stat-preview-bg);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.proficiency-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    font-weight: normal;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.proficiency-checkbox input {
+    width: auto;
+    cursor: pointer;
+}
+
+.character-level {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.level-badge {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.proficiency-badge {
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.stats-display.detailed .stat-box {
+    padding: 1rem;
+}
+
+.stat-modifier {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    margin-top: 0.25rem;
+}
+
+.stat-save {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-top: 0.25rem;
+}
+
+.stat-save.proficient {
+    color: var(--success-color);
+    text-shadow: 0 0 1px var(--success-color);
+}
+
+.character-level-small {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+.prof-bonus-note {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.legend {
+    font-size: 0.85rem;
+    color: var(--secondary-color);
+    margin-top: 1rem;
+}
+
+.character-form-container h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
 }
 
 footer {

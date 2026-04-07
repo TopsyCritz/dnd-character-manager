@@ -11,30 +11,56 @@
             <input type="text" id="name" name="name" required maxlength="100" value="{{ character.name }}">
         </div>
         
-        <div class="stats-grid">
+        <div class="form-group">
+            <label for="level">Level</label>
+            <input type="number" id="level" name="level" min="1" max="20" value="{{ character.level }}" required>
+        </div>
+        
+        <h3>Ability Scores & Proficiency</h3>
+        <p class="form-hint">Check the box next to a stat to add your proficiency bonus</p>
+        
+        <div class="stats-grid with-proficiency">
             <div class="stat-field">
                 <label for="strength">Strength</label>
                 <input type="number" id="strength" name="strength" min="1" max="30" value="{{ character.strength }}" required>
+                <label class="proficiency-checkbox">
+                    <input type="checkbox" name="str_proficient" {% if character.str_proficient %}checked{% endif %}> Proficient
+                </label>
             </div>
             <div class="stat-field">
                 <label for="dexterity">Dexterity</label>
                 <input type="number" id="dexterity" name="dexterity" min="1" max="30" value="{{ character.dexterity }}" required>
+                <label class="proficiency-checkbox">
+                    <input type="checkbox" name="dex_proficient" {% if character.dex_proficient %}checked{% endif %}> Proficient
+                </label>
             </div>
             <div class="stat-field">
                 <label for="constitution">Constitution</label>
                 <input type="number" id="constitution" name="constitution" min="1" max="30" value="{{ character.constitution }}" required>
+                <label class="proficiency-checkbox">
+                    <input type="checkbox" name="con_proficient" {% if character.con_proficient %}checked{% endif %}> Proficient
+                </label>
             </div>
             <div class="stat-field">
                 <label for="intelligence">Intelligence</label>
                 <input type="number" id="intelligence" name="intelligence" min="1" max="30" value="{{ character.intelligence }}" required>
+                <label class="proficiency-checkbox">
+                    <input type="checkbox" name="int_proficient" {% if character.int_proficient %}checked{% endif %}> Proficient
+                </label>
             </div>
             <div class="stat-field">
                 <label for="wisdom">Wisdom</label>
                 <input type="number" id="wisdom" name="wisdom" min="1" max="30" value="{{ character.wisdom }}" required>
+                <label class="proficiency-checkbox">
+                    <input type="checkbox" name="wis_proficient" {% if character.wis_proficient %}checked{% endif %}> Proficient
+                </label>
             </div>
             <div class="stat-field">
                 <label for="charisma">Charisma</label>
                 <input type="number" id="charisma" name="charisma" min="1" max="30" value="{{ character.charisma }}" required>
+                <label class="proficiency-checkbox">
+                    <input type="checkbox" name="cha_proficient" {% if character.cha_proficient %}checked{% endif %}> Proficient
+                </label>
             </div>
         </div>
         

@@ -15,34 +15,52 @@
         </div>
     </div>
 
+    <div class="character-level">
+        <span class="level-badge">Level {{ character.level }}</span>
+        <span class="proficiency-badge">Proficiency Bonus: +{{ proficiency_bonus }}</span>
+    </div>
+
     <div class="character-details">
-        <h3>Core Statistics</h3>
-        <div class="stats-display">
+        <h3>Ability Scores & Modifiers</h3>
+        <div class="stats-display detailed">
             <div class="stat-box">
                 <span class="stat-name">Strength</span>
-                <span class="stat-value">{{ character.strength }}</span>
+                <span class="stat-value">{{ stats.strength.value }}</span>
+                <span class="stat-modifier">Modifier: {% if stats.strength.modifier >= 0 %}+{% endif %}{{ stats.strength.modifier }}</span>
+                <span class="stat-save {% if stats.strength.proficient %}proficient{% endif %}">Save: {% if stats.strength.total >= 0 %}+{% endif %}{{ stats.strength.total }}{% if stats.strength.proficient %} *{% endif %}</span>
             </div>
             <div class="stat-box">
                 <span class="stat-name">Dexterity</span>
-                <span class="stat-value">{{ character.dexterity }}</span>
+                <span class="stat-value">{{ stats.dexterity.value }}</span>
+                <span class="stat-modifier">Modifier: {% if stats.dexterity.modifier >= 0 %}+{% endif %}{{ stats.dexterity.modifier }}</span>
+                <span class="stat-save {% if stats.dexterity.proficient %}proficient{% endif %}">Save: {% if stats.dexterity.total >= 0 %}+{% endif %}{{ stats.dexterity.total }}{% if stats.dexterity.proficient %} *{% endif %}</span>
             </div>
             <div class="stat-box">
                 <span class="stat-name">Constitution</span>
-                <span class="stat-value">{{ character.constitution }}</span>
+                <span class="stat-value">{{ stats.constitution.value }}</span>
+                <span class="stat-modifier">Modifier: {% if stats.constitution.modifier >= 0 %}+{% endif %}{{ stats.constitution.modifier }}</span>
+                <span class="stat-save {% if stats.constitution.proficient %}proficient{% endif %}">Save: {% if stats.constitution.total >= 0 %}+{% endif %}{{ stats.constitution.total }}{% if stats.constitution.proficient %} *{% endif %}</span>
             </div>
             <div class="stat-box">
                 <span class="stat-name">Intelligence</span>
-                <span class="stat-value">{{ character.intelligence }}</span>
+                <span class="stat-value">{{ stats.intelligence.value }}</span>
+                <span class="stat-modifier">Modifier: {% if stats.intelligence.modifier >= 0 %}+{% endif %}{{ stats.intelligence.modifier }}</span>
+                <span class="stat-save {% if stats.intelligence.proficient %}proficient{% endif %}">Save: {% if stats.intelligence.total >= 0 %}+{% endif %}{{ stats.intelligence.total }}{% if stats.intelligence.proficient %} *{% endif %}</span>
             </div>
             <div class="stat-box">
                 <span class="stat-name">Wisdom</span>
-                <span class="stat-value">{{ character.wisdom }}</span>
+                <span class="stat-value">{{ stats.wisdom.value }}</span>
+                <span class="stat-modifier">Modifier: {% if stats.wisdom.modifier >= 0 %}+{% endif %}{{ stats.wisdom.modifier }}</span>
+                <span class="stat-save {% if stats.wisdom.proficient %}proficient{% endif %}">Save: Save: {% if stats.wisdom.total >= 0 %}+{% endif %}{{ stats.wisdom.total }}{% if stats.wisdom.proficient %} *{% endif %}</span>
             </div>
             <div class="stat-box">
                 <span class="stat-name">Charisma</span>
-                <span class="stat-value">{{ character.charisma }}</span>
+                <span class="stat-value">{{ stats.charisma.value }}</span>
+                <span class="stat-modifier">Modifier: {% if stats.charisma.modifier >= 0 %}+{% endif %}{{ stats.charisma.modifier }}</span>
+                <span class="stat-save {% if stats.charisma.proficient %}proficient{% endif %}">Save: {% if stats.charisma.total >= 0 %}+{% endif %}{{ stats.charisma.total }}{% if stats.charisma.proficient %} *{% endif %}</span>
             </div>
         </div>
+        <p class="legend">* = Proficient</p>
     </div>
 </div>
 {% endblock %}
