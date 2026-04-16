@@ -1,14 +1,43 @@
 # D&D Character Manager
 
-A web-based application for creating and managing Dungeons & Dragons characters.
+A web-based application for creating and managing Dungeons & Dragons 5th Edition characters.
 
 ## Features
 
 - User registration and login with email/password
-- Create characters with core D&D statistics (STR, DEX, CON, INT, WIS, CHA)
+- Create characters with D&D 5e ability scores and level
+- Full skill system with 18 skills and proficiency tracking
+- Automatic calculation of ability modifiers and skill bonuses
 - View, edit, and delete characters
+- Dark mode toggle
 - Secure password hashing
 - SQLite database for persistent storage
+
+## D&D 5e Rules Implemented
+
+- **Ability Scores**: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
+- **Ability Modifiers**: Calculated as `(score - 10) / 2`
+- **Proficiency Bonus**: Based on character level
+  - Levels 1-4: +2
+  - Levels 5-8: +3
+  - Levels 9-12: +4
+  - Levels 13-16: +5
+  - Levels 17-20: +6
+- **Skills**: 18 skills mapped to abilities with proficiency checkboxes
+
+### Skill List
+
+| Ability | Skills |
+|---------|--------|
+| Strength | Athletics |
+| Dexterity | Acrobatics, Sleight of Hand, Stealth |
+| Intelligence | Arcana, History, Investigation, Nature, Religion |
+| Wisdom | Animal Handling, Insight, Medicine, Perception, Survival |
+| Charisma | Deception, Intimidation, Performance, Persuasion |
+
+### Skill Check Formula
+- `skill_modifier = ability_modifier + proficiency_bonus` (if proficient)
+- `skill_modifier = ability_modifier` (if not proficient)
 
 ## Requirements
 
@@ -41,26 +70,31 @@ A web-based application for creating and managing Dungeons & Dragons characters.
 
 3. **Create Character**: Click "New Character" to create a character with:
    - Character name
-   - Strength (1-30)
-   - Dexterity (1-30)
-   - Constitution (1-30)
-   - Intelligence (1-30)
-   - Wisdom (1-30)
-   - Charisma (1-30)
+   - Character level (1-20)
+   - Ability scores (1-30 each):
+     - Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
+   - Skill proficiencies (select any skills your character is proficient in)
 
-4. **Manage Characters**: View, edit, or delete your characters from the dashboard.
+4. **View Character**: See your character's ability scores with modifiers and all skills with calculated bonuses.
+
+5. **Manage Characters**: View, edit, or delete your characters from the dashboard.
+
+6. **Dark Mode**: Toggle dark/light theme using the moon/sun icon in the navigation bar.
 
 ## Database
 
-The database (`dnd characters.db`) is automatically created when you first run the application. It stores:
+The database (`instance/dnd characters.db`) is automatically created when you first run the application. It stores:
 - User accounts (email and hashed passwords)
-- Character data (linked to users)
+- Character data with ability scores and level
+- Skill proficiencies (linked to characters)
 
 ## Project Structure
 
 ```
 dnd-character-manager/
-├── app.py                 # Main Flask application
+├── app.py                 # Flask application initialization
+├── models.py              # Database models and D&D logic
+├── routes.py              # Route handlers
 ├── static/
 │   └── style.css         # Stylesheet
 ├── templates/
@@ -70,8 +104,9 @@ dnd-character-manager/
 │   ├── register.html     # Registration form
 │   ├── dashboard.html    # User dashboard
 │   ├── new_character.html # Character creation form
-│   ├── view_character.html # Character details
+│   ├── view_character.html # Character sheet view
 │   └── edit_character.html # Character edit form
+├── instance/             # Database folder (auto-created)
 ├── README.md             # This file
 └── venv/                 # Virtual environment (if used)
 ```

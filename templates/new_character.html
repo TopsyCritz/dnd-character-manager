@@ -16,59 +16,136 @@
             <input type="number" id="level" name="level" min="1" max="20" value="1" required>
         </div>
         
-        <h3>Ability Scores & Proficiency</h3>
-        <p class="form-hint">Check the box next to a stat to add your proficiency bonus</p>
+        <h3>Ability Scores</h3>
+        <p class="form-hint">Enter scores between 1 and 30</p>
         
-        <div class="stats-grid with-proficiency">
-            <div class="stat-field">
+        <div class="ability-grid">
+            <div class="ability-field">
                 <label for="strength">Strength</label>
                 <input type="number" id="strength" name="strength" min="1" max="30" value="10" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="str_proficient"> Proficient
-                </label>
             </div>
-            <div class="stat-field">
+            <div class="ability-field">
                 <label for="dexterity">Dexterity</label>
                 <input type="number" id="dexterity" name="dexterity" min="1" max="30" value="10" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="dex_proficient"> Proficient
-                </label>
             </div>
-            <div class="stat-field">
+            <div class="ability-field">
                 <label for="constitution">Constitution</label>
                 <input type="number" id="constitution" name="constitution" min="1" max="30" value="10" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="con_proficient"> Proficient
-                </label>
             </div>
-            <div class="stat-field">
+            <div class="ability-field">
                 <label for="intelligence">Intelligence</label>
                 <input type="number" id="intelligence" name="intelligence" min="1" max="30" value="10" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="int_proficient"> Proficient
-                </label>
             </div>
-            <div class="stat-field">
+            <div class="ability-field">
                 <label for="wisdom">Wisdom</label>
                 <input type="number" id="wisdom" name="wisdom" min="1" max="30" value="10" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="wis_proficient"> Proficient
-                </label>
             </div>
-            <div class="stat-field">
+            <div class="ability-field">
                 <label for="charisma">Charisma</label>
                 <input type="number" id="charisma" name="charisma" min="1" max="30" value="10" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="cha_proficient"> Proficient
-                </label>
             </div>
         </div>
         
-        <p class="form-hint">Stats must be between 1 and 30</p>
+        <h3>Skill Proficiencies</h3>
+        <p class="form-hint">Check the skills your character is proficient in</p>
+        
+        <div class="skills-section">
+            <div class="skill-group">
+                <h4>Strength</h4>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_athletics" name="skill_athletics">
+                    <label for="skill_athletics">Athletics</label>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <h4>Dexterity</h4>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_acrobatics" name="skill_acrobatics">
+                    <label for="skill_acrobatics">Acrobatics</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_sleight_of_hand" name="skill_sleight_of_hand">
+                    <label for="skill_sleight_of_hand">Sleight of Hand</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_stealth" name="skill_stealth">
+                    <label for="skill_stealth">Stealth</label>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <h4>Intelligence</h4>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_arcana" name="skill_arcana">
+                    <label for="skill_arcana">Arcana</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_history" name="skill_history">
+                    <label for="skill_history">History</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_investigation" name="skill_investigation">
+                    <label for="skill_investigation">Investigation</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_nature" name="skill_nature">
+                    <label for="skill_nature">Nature</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_religion" name="skill_religion">
+                    <label for="skill_religion">Religion</label>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <h4>Wisdom</h4>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_animal_handling" name="skill_animal_handling">
+                    <label for="skill_animal_handling">Animal Handling</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_insight" name="skill_insight">
+                    <label for="skill_insight">Insight</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_medicine" name="skill_medicine">
+                    <label for="skill_medicine">Medicine</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_perception" name="skill_perception">
+                    <label for="skill_perception">Perception</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_survival" name="skill_survival">
+                    <label for="skill_survival">Survival</label>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <h4>Charisma</h4>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_deception" name="skill_deception">
+                    <label for="skill_deception">Deception</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_intimidation" name="skill_intimidation">
+                    <label for="skill_intimidation">Intimidation</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_performance" name="skill_performance">
+                    <label for="skill_performance">Performance</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_persuasion" name="skill_persuasion">
+                    <label for="skill_persuasion">Persuasion</label>
+                </div>
+            </div>
+        </div>
         
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Create Character</button>
-            <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Cancel</a>
+            <a href="{{ url_for('routes.dashboard') }}" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>

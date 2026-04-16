@@ -16,59 +16,136 @@
             <input type="number" id="level" name="level" min="1" max="20" value="{{ character.level }}" required>
         </div>
         
-        <h3>Ability Scores & Proficiency</h3>
-        <p class="form-hint">Check the box next to a stat to add your proficiency bonus</p>
+        <h3>Ability Scores</h3>
+        <p class="form-hint">Enter scores between 1 and 30</p>
         
-        <div class="stats-grid with-proficiency">
-            <div class="stat-field">
+        <div class="ability-grid">
+            <div class="ability-field">
                 <label for="strength">Strength</label>
                 <input type="number" id="strength" name="strength" min="1" max="30" value="{{ character.strength }}" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="str_proficient" {% if character.str_proficient %}checked{% endif %}> Proficient
-                </label>
             </div>
-            <div class="stat-field">
+            <div class="ability-field">
                 <label for="dexterity">Dexterity</label>
                 <input type="number" id="dexterity" name="dexterity" min="1" max="30" value="{{ character.dexterity }}" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="dex_proficient" {% if character.dex_proficient %}checked{% endif %}> Proficient
-                </label>
             </div>
-            <div class="stat-field">
+            <div class="ability-field">
                 <label for="constitution">Constitution</label>
                 <input type="number" id="constitution" name="constitution" min="1" max="30" value="{{ character.constitution }}" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="con_proficient" {% if character.con_proficient %}checked{% endif %}> Proficient
-                </label>
             </div>
-            <div class="stat-field">
+            <div class="ability-field">
                 <label for="intelligence">Intelligence</label>
                 <input type="number" id="intelligence" name="intelligence" min="1" max="30" value="{{ character.intelligence }}" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="int_proficient" {% if character.int_proficient %}checked{% endif %}> Proficient
-                </label>
             </div>
-            <div class="stat-field">
+            <div class="ability-field">
                 <label for="wisdom">Wisdom</label>
                 <input type="number" id="wisdom" name="wisdom" min="1" max="30" value="{{ character.wisdom }}" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="wis_proficient" {% if character.wis_proficient %}checked{% endif %}> Proficient
-                </label>
             </div>
-            <div class="stat-field">
+            <div class="ability-field">
                 <label for="charisma">Charisma</label>
                 <input type="number" id="charisma" name="charisma" min="1" max="30" value="{{ character.charisma }}" required>
-                <label class="proficiency-checkbox">
-                    <input type="checkbox" name="cha_proficient" {% if character.cha_proficient %}checked{% endif %}> Proficient
-                </label>
             </div>
         </div>
         
-        <p class="form-hint">Stats must be between 1 and 30</p>
+        <h3>Skill Proficiencies</h3>
+        <p class="form-hint">Check the skills your character is proficient in</p>
+        
+        <div class="skills-section">
+            <div class="skill-group">
+                <h4>Strength</h4>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_athletics" name="skill_athletics" {% if 'Athletics' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_athletics">Athletics</label>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <h4>Dexterity</h4>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_acrobatics" name="skill_acrobatics" {% if 'Acrobatics' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_acrobatics">Acrobatics</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_sleight_of_hand" name="skill_sleight_of_hand" {% if 'Sleight of Hand' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_sleight_of_hand">Sleight of Hand</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_stealth" name="skill_stealth" {% if 'Stealth' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_stealth">Stealth</label>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <h4>Intelligence</h4>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_arcana" name="skill_arcana" {% if 'Arcana' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_arcana">Arcana</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_history" name="skill_history" {% if 'History' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_history">History</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_investigation" name="skill_investigation" {% if 'Investigation' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_investigation">Investigation</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_nature" name="skill_nature" {% if 'Nature' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_nature">Nature</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_religion" name="skill_religion" {% if 'Religion' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_religion">Religion</label>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <h4>Wisdom</h4>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_animal_handling" name="skill_animal_handling" {% if 'Animal Handling' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_animal_handling">Animal Handling</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_insight" name="skill_insight" {% if 'Insight' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_insight">Insight</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_medicine" name="skill_medicine" {% if 'Medicine' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_medicine">Medicine</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_perception" name="skill_perception" {% if 'Perception' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_perception">Perception</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_survival" name="skill_survival" {% if 'Survival' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_survival">Survival</label>
+                </div>
+            </div>
+            
+            <div class="skill-group">
+                <h4>Charisma</h4>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_deception" name="skill_deception" {% if 'Deception' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_deception">Deception</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_intimidation" name="skill_intimidation" {% if 'Intimidation' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_intimidation">Intimidation</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_performance" name="skill_performance" {% if 'Performance' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_performance">Performance</label>
+                </div>
+                <div class="skill-checkbox">
+                    <input type="checkbox" id="skill_persuasion" name="skill_persuasion" {% if 'Persuasion' in proficient_skills %}checked{% endif %}>
+                    <label for="skill_persuasion">Persuasion</label>
+                </div>
+            </div>
+        </div>
         
         <div class="form-actions">
             <button type="submit" class="btn btn-primary">Save Changes</button>
-            <a href="{{ url_for('view_character', character_id=character.id) }}" class="btn btn-secondary">Cancel</a>
+            <a href="{{ url_for('routes.view_character', character_id=character.id) }}" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 </div>
