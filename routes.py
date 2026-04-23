@@ -1,7 +1,54 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, flash
+from flask import Blueprint, render_template, request, redirect, url_for, session, flash, Response
 from models import db, User, Character, SkillProficiency, SKILL_LIST
+import json
 
 routes = Blueprint('routes', __name__)
+
+
+def build_character_data(character):
+    """Build character data dictionary for display and export."""
+    proficiency_bonus = character.get_proficiency_bonus()
+    
+    abilities = {
+        'strength': {'value': character.strength, 'modifier': character.get_modifier('strength'), 'name': 'Strength'},
+        'dexterity': {'value': character.dexterity, 'modifier': character.get_modifier('dexterity'), 'name': 'Dexterity'},
+        'constitution': {'value': character.constitution, 'modifier': character.get_modifier('constitution'), 'name': 'Constitution'},
+        'intelligence': {'value': character.intelligence, 'modifier': character.get_modifier('intelligence'), 'name': 'Intelligence'},
+        'wisdom': {'value': character.wisdom, 'modifier': character.get_modifier('wisdom'), 'name': 'Wisdom'},
+        'charisma': {'value': character.charisma, 'modifier': character.get_modifier('charisma'), 'name': 'Charisma'},
+    }
+    
+    skills = []
+    for skill_name, ability in SKILL_LIST:
+        skill_mod = character.get_skill_modifier(skill_name)
+        is_proficient = skill_name in character.get_proficient_skills()
+        skills.append({
+            'name': skill_name,
+            'ability': ability,
+            'ability_short': ability[:3].upper(),
+            'modifier': skill_mod,
+            'proficient': is_proficient
+        })
+    
+    return {
+        'proficiency_bonus': proficiency_bonus,
+        'abilities': abilities,
+        'skills': skills
+    }
+
+
+def character_to_dict(character):
+    """Convert character to dictionary for JSON export."""
+    data = build_character_data(character)
+    
+    return {
+        'id': character.id,
+        'name': character.name,
+        'level': character.level,
+        'proficiency_bonus': data['proficiency_bonus'],
+        'abilities': data['abilities'],
+        'skills': data['skills']
+    }
 
 
 @routes.route('/')
@@ -180,34 +227,13 @@ def view_character(character_id):
         flash('You do not have permission to view this character.', 'error')
         return redirect(url_for('routes.dashboard'))
     
-    proficiency_bonus = character.get_proficiency_bonus()
-    
-    abilities = {
-        'strength': {'value': character.strength, 'modifier': character.get_modifier('strength'), 'name': 'Strength'},
-        'dexterity': {'value': character.dexterity, 'modifier': character.get_modifier('dexterity'), 'name': 'Dexterity'},
-        'constitution': {'value': character.constitution, 'modifier': character.get_modifier('constitution'), 'name': 'Constitution'},
-        'intelligence': {'value': character.intelligence, 'modifier': character.get_modifier('intelligence'), 'name': 'Intelligence'},
-        'wisdom': {'value': character.wisdom, 'modifier': character.get_modifier('wisdom'), 'name': 'Wisdom'},
-        'charisma': {'value': character.charisma, 'modifier': character.get_modifier('charisma'), 'name': 'Charisma'},
-    }
-    
-    skills = []
-    for skill_name, ability in SKILL_LIST:
-        skill_mod = character.get_skill_modifier(skill_name)
-        is_proficient = skill_name in character.get_proficient_skills()
-        skills.append({
-            'name': skill_name,
-            'ability': ability,
-            'ability_short': ability[:3].upper(),
-            'modifier': skill_mod,
-            'proficient': is_proficient
-        })
+    data = build_character_data(character)
     
     return render_template('view_character.html', 
                          character=character, 
-                         proficiency_bonus=proficiency_bonus, 
-                         abilities=abilities,
-                         skills=skills,
+                         proficiency_bonus=data['proficiency_bonus'], 
+                         abilities=data['abilities'],
+                         skills=data['skills'],
                          skill_list=SKILL_LIST)
 
 
@@ -290,3 +316,25 @@ def delete_character(character_id):
     
     flash('Character deleted successfully!', 'success')
     return redirect(url_for('routes.dashboard'))
+
+
+@routes.route('/export/json/<int:character_id>')
+def export_json(character_id):
+    if 'user_id' not in session:
+        return redirect(url_for('routes.login'))
+    
+    character = Character.query.get_or_404(character_id)
+    
+    if character.user_id != session['user_id']:
+        flash('You do not have permission to export this character.', 'error')
+        return redirect(url_for('routes.dashboard'))
+    
+    data = character_to_dict(character)
+    
+    return Response(
+        json.dumps(data, indent=4),
+        mimetype="application/json",
+        headers={
+            "Content-Disposition": f"attachment; filename=character_{character_id}.json"
+        }
+    )
