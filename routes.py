@@ -338,3 +338,104 @@ def export_json(character_id):
             "Content-Disposition": f"attachment; filename=character_{character_id}.json"
         }
     )
+
+
+@routes.route('/import/json', methods=['GET', 'POST'])
+def import_json():
+    if 'user_id' not in session:
+        return redirect(url_for('routes.login'))
+    
+    if request.method == 'POST':
+        if 'file' not in request.files:
+            flash('No file uploaded.', 'error')
+            return redirect(url_for('routes.import_json'))
+        
+        file = request.files['file']
+        
+        if file.filename == '':
+            flash('No file selected.', 'error')
+            return redirect(url_for('routes.import_json'))
+        
+        if not file.filename.lower().endswith('.json'):
+            flash('File must be a JSON file.', 'error')
+            return redirect(url_for('routes.import_json'))
+        
+        try:
+            import_data = json.load(file)
+        except json.JSONDecodeError:
+            flash('Invalid JSON file.', 'error')
+            return redirect(url_for('routes.import_json'))
+        
+        if 'name' not in import_data:
+            flash('Missing character name.', 'error')
+            return redirect(url_for('routes.import_json'))
+        
+        if 'level' not in import_data:
+            flash('Missing character level.', 'error')
+            return redirect(url_for('routes.import_json'))
+        
+        if 'abilities' not in import_data:
+            flash('Missing abilities data.', 'error')
+            return redirect(url_for('routes.import_json'))
+        
+        abilities = import_data['abilities']
+        
+        required_abilities = ['strength', 'dexterity', 'constitution', 'intelligence', 'wisdom', 'charisma']
+        for ability in required_abilities:
+            if ability not in abilities:
+                flash(f'Missing {ability} ability score.', 'error')
+                return redirect(url_for('routes.import_json'))
+            
+            if 'value' not in abilities[ability]:
+                flash(f'Missing {ability} ability value.', 'error')
+                return redirect(url_for('routes.import_json'))
+        
+        try:
+            level = int(import_data['level'])
+            if not (1 <= level <= 20):
+                flash('Level must be between 1 and 20.', 'error')
+                return redirect(url_for('routes.import_json'))
+        except (ValueError, TypeError):
+            flash('Invalid level value.', 'error')
+            return redirect(url_for('routes.import_json'))
+        
+        for ability in required_abilities:
+            try:
+                score = int(abilities[ability]['value'])
+                if not (1 <= score <= 30):
+                    flash(f'{ability.capitalize()} score must be between 1 and 30.', 'error')
+                    return redirect(url_for('routes.import_json'))
+            except (ValueError, TypeError):
+                flash(f'Invalid {ability} ability value.', 'error')
+                return redirect(url_for('routes.import_json'))
+        
+        character = Character(
+            name=import_data['name'],
+            level=level,
+            strength=int(abilities['strength']['value']),
+            dexterity=int(abilities['dexterity']['value']),
+            constitution=int(abilities['constitution']['value']),
+            intelligence=int(abilities['intelligence']['value']),
+            wisdom=int(abilities['wisdom']['value']),
+            charisma=int(abilities['charisma']['value']),
+            user_id=session['user_id']
+        )
+        db.session.add(character)
+        db.session.commit()
+        
+        imported_skills = import_data.get('skills', [])
+        for skill_data in imported_skills:
+            if isinstance(skill_data, dict) and skill_data.get('proficient'):
+                skill_name = skill_data.get('name')
+                if skill_name:
+                    valid_skill = any(skill_name == name for name, _ in SKILL_LIST)
+                    if valid_skill:
+                        prof = SkillProficiency(character_id=character.id, skill_name=skill_name)
+                        db.session.add(prof)
+        
+        db.session.commit()
+        
+        flash('Character imported successfully!', 'success')
+        return redirect(url_for('routes.dashboard'))
+    
+    return render_template('import_json.html')

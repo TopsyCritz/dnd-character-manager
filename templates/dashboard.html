@@ -6,7 +6,10 @@
 <div class="dashboard">
     <div class="dashboard-header">
         <h2>Welcome, {{ user.email }}</h2>
-        <a href="{{ url_for('routes.new_character') }}" class="btn btn-primary">Create New Character</a>
+        <div class="header-buttons">
+            <a href="{{ url_for('routes.new_character') }}" class="btn btn-primary">Create New Character</a>
+            <a href="{{ url_for('routes.import_json') }}" class="btn btn-secondary">Import Character</a>
+        </div>
     </div>
 
     <h3>Your Characters</h3>
