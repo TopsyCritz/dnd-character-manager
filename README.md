@@ -1,122 +1,155 @@
 # D&D Character Manager
 
-A web-based application for creating and managing Dungeons & Dragons 5th Edition characters.
+A Flask web application for creating, managing, and sharing Dungeons & Dragons 5th Edition characters.
 
 ## Features
 
-- User registration and login with email/password
-- Create characters with D&D 5e ability scores and level
-- Full skill system with 18 skills and proficiency tracking
-- Automatic calculation of ability modifiers and skill bonuses
-- View, edit, and delete characters
-- Dark mode toggle
-- Secure password hashing
-- SQLite database for persistent storage
+### User Authentication
+- Register, login, and logout with email and password
+- Session-based authentication with secure password hashing
+- Characters are private to each user account
 
-## D&D 5e Rules Implemented
+### Character Management
+- Create, view, edit, and delete characters
+- Character level tracking (1–20)
+- Hit Point system with manual max HP and current HP
+- Visual HP bar with low HP indicator (turns red below 50%)
 
-- **Ability Scores**: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
-- **Ability Modifiers**: Calculated as `(score - 10) / 2`
-- **Proficiency Bonus**: Based on character level
-  - Levels 1-4: +2
-  - Levels 5-8: +3
-  - Levels 9-12: +4
-  - Levels 13-16: +5
-  - Levels 17-20: +6
-- **Skills**: 18 skills mapped to abilities with proficiency checkboxes
+### Ability Scores
+- Six core ability scores: STR, DEX, CON, INT, WIS, CHA
+- Automatic ability modifier calculation: `floor((score - 10) / 2)`
 
-### Skill List
+### Skill System
+- 18 official D&D 5e skills mapped to their governing abilities
+- Proficiency checkboxes for each skill
+- Automatic skill modifier calculation:
+  - Proficient: `ability_modifier + proficiency_bonus`
+  - Not proficient: `ability_modifier` only
 
-| Ability | Skills |
-|---------|--------|
-| Strength | Athletics |
-| Dexterity | Acrobatics, Sleight of Hand, Stealth |
-| Intelligence | Arcana, History, Investigation, Nature, Religion |
-| Wisdom | Animal Handling, Insight, Medicine, Perception, Survival |
-| Charisma | Deception, Intimidation, Performance, Persuasion |
+### Proficiency Bonus
+Calculated based on character level:
+| Level | Bonus |
+|-------|-------|
+| 1–4   | +2    |
+| 5–8   | +3    |
+| 9–12  | +4    |
+| 13–16 | +5    |
+| 17–20 | +6    |
 
-### Skill Check Formula
-- `skill_modifier = ability_modifier + proficiency_bonus` (if proficient)
-- `skill_modifier = ability_modifier` (if not proficient)
+### Import / Export
+- Export characters as downloadable JSON files
+- Import characters from previously exported JSON files
+- Imported characters use validated raw data with recalculated modifiers
 
-## Requirements
-
-- Python 3.8+
-- Flask
-- Flask-SQLAlchemy
-- Werkzeug
+### Interface
+- Dark mode toggle (persists per session)
+- Character dashboard showing overview of all characters
+- Detailed character sheet with abilities, modifiers, skills, and HP
 
 ## Installation
 
-1. Clone the repository or navigate to the project directory.
+1. Clone the repository:
+   ```
+   git clone <repository-url>
+   cd dnd-character-manager
+   ```
 
-2. Install the required dependencies:
+2. Create and activate a virtual environment:
+   ```
+   python -m venv venv
+   venv\Scripts\activate
+   ```
+
+3. Install dependencies:
    ```
    pip install flask flask-sqlalchemy
    ```
 
-3. Run the application:
+4. Run the application:
    ```
    python app.py
    ```
 
-4. Open your browser and navigate to `http://127.0.0.1:5000`
+5. Open your browser to `http://127.0.0.1:5000`
 
 ## Usage
 
-1. **Register**: Click "Register" to create a new account with your email and password.
+### Creating a Character
+1. Log in and click "Create New Character" on the dashboard
+2. Enter the character name and level (1–20)
+3. Set Max HP and Current HP (current HP defaults to Max HP)
+4. Enter ability scores (1–30 for each)
+5. Select skill proficiencies by checking the appropriate boxes
+6. Click "Create Character"
 
-2. **Login**: After registering, log in with your credentials.
+### Editing a Character
+1. From the character view, click "Edit"
+2. Modify any field: name, level, HP, ability scores, or skill proficiencies
+3. Current HP must be between 0 and Max HP
+4. Click "Save Changes"
 
-3. **Create Character**: Click "New Character" to create a character with:
-   - Character name
-   - Character level (1-20)
-   - Ability scores (1-30 each):
-     - Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
-   - Skill proficiencies (select any skills your character is proficient in)
+### Skill Proficiency
+When creating or editing a character, check the box next to each skill your character is proficient in. The application automatically:
+- Calculates the ability modifier from the governing ability score
+- Adds the proficiency bonus based on character level (if proficient)
+- Displays the final skill modifier on the character sheet
 
-4. **View Character**: See your character's ability scores with modifiers and all skills with calculated bonuses.
+### Managing Hit Points
+HP is entered manually when creating or editing a character:
+- Max HP represents the character's total hit point maximum
+- Current HP represents the character's current health
+- The HP bar on the character sheet turns red when current HP falls below 50% of max HP
+- Edit a character at any time to adjust current HP after taking damage or healing
 
-5. **Manage Characters**: View, edit, or delete your characters from the dashboard.
+### Exporting a Character
+1. Open the character's detail view
+2. Click "Export JSON"
+3. A file named `character_<id>.json` will download
 
-6. **Dark Mode**: Toggle dark/light theme using the moon/sun icon in the navigation bar.
-
-## Database
-
-The database (`instance/dnd characters.db`) is automatically created when you first run the application. It stores:
-- User accounts (email and hashed passwords)
-- Character data with ability scores and level
-- Skill proficiencies (linked to characters)
+### Importing a Character
+1. From the dashboard, click "Import Character"
+2. Select a previously exported JSON file
+3. The application validates the file and creates a new character
+4. Only raw data is imported (name, level, ability scores, skill proficiencies)
+5. All modifiers are recalculated automatically
+6. The new character appears on your dashboard
 
 ## Project Structure
 
-```
-dnd-character-manager/
-├── app.py                 # Flask application initialization
-├── models.py              # Database models and D&D logic
-├── routes.py              # Route handlers
-├── static/
-│   └── style.css         # Stylesheet
-├── templates/
-│   ├── base.html         # Base template
-│   ├── index.html        # Home page
-│   ├── login.html        # Login form
-│   ├── register.html     # Registration form
-│   ├── dashboard.html    # User dashboard
-│   ├── new_character.html # Character creation form
-│   ├── view_character.html # Character sheet view
-│   └── edit_character.html # Character edit form
-├── instance/             # Database folder (auto-created)
-├── README.md             # This file
-└── venv/                 # Virtual environment (if used)
-```
+| File/Directory       | Description |
+|---------------------|-------------|
+| `app.py`            | Flask application initialization and configuration |
+| `models.py`         | Database models (User, Character, SkillProficiency) and D&D calculation methods |
+| `routes.py`         | Route handlers, JSON export/import logic, helper functions |
+| `templates/`        | HTML templates using Jinja2 |
+| `static/style.css`  | Stylesheet with light and dark theme support |
+| `instance/`         | SQLite database (auto-created on first run) |
 
-## Security Notes
+## Database Schema
 
-- Passwords are hashed using Werkzeug's security functions
-- Session-based authentication
-- Characters are tied to user accounts and can only be viewed/edited by the owner
+- **User**: id, email, password_hash
+- **Character**: id, name, level, max_hp, current_hp, ability scores, user_id
+- **SkillProficiency**: id, character_id, skill_name
 
-## License
+The `Character` model includes methods for calculating modifiers, proficiency bonuses, and skill values. All calculations are performed server-side.
 
-This project is for educational purposes.
+## Technologies
+
+- **Python 3.8+**
+- **Flask** – Web framework
+- **Flask-SQLAlchemy** – ORM and database management
+- **Werkzeug** – Password hashing utilities
+- **SQLite** – Relational database
+- **Jinja2** – Template engine
+- **HTML/CSS** – Frontend with responsive design
+
+## Future Improvements
+
+- Character classes and automatic hit die calculation
+- Constitution-based HP calculations
+- Inventory and equipment management
+- Spell tracking and spell slots
+- Saving throws with proficiency
+- Rest tracking (short rest, long rest)
+- Character notes and background information
+- UI polish and animations
