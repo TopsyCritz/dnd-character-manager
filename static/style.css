@@ -552,6 +552,17 @@ main {
     border-radius: 4px;
     font-size: 0.85rem;
     margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.character-hp-small {
+    display: inline-block;
+    background-color: var(--secondary-color);
+    color: #fff;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
 }
 
 .prof-bonus-note {
@@ -762,4 +773,43 @@ footer {
     .character-header-actions .btn {
         flex: 1;
     }
+}
+
+.hp-display {
+    background-color: var(--success-color);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.hp-display.low-hp {
+    background-color: var(--danger-color);
+}
+
+.hp-bar-container {
+    background-color: var(--stat-preview-bg);
+    border-radius: 8px;
+    height: 30px;
+    border: 1px solid var(--border-color);
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.hp-bar {
+    background-color: var(--success-color);
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 8px 0 0 8px;
+}
+
+[data-theme="dark"] .hp-bar {
+    background-color: #2ecc71;
+}
+
+.hp-text {
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
 }

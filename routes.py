@@ -168,6 +168,8 @@ def new_character():
         
         try:
             level = int(request.form.get('level', 1))
+            max_hp = int(request.form.get('max_hp', 10))
+            current_hp = int(request.form.get('current_hp', max_hp))
             strength = int(request.form.get('strength', 0))
             dexterity = int(request.form.get('dexterity', 0))
             constitution = int(request.form.get('constitution', 0))
@@ -186,6 +188,14 @@ def new_character():
             flash('Level must be between 1 and 20.', 'error')
             return render_template('new_character.html', skill_list=SKILL_LIST)
         
+        if not (1 <= max_hp <= 999):
+            flash('Max HP must be between 1 and 999.', 'error')
+            return render_template('new_character.html', skill_list=SKILL_LIST)
+        
+        if not (0 <= current_hp <= max_hp):
+            flash('Current HP must be between 0 and Max HP.', 'error')
+            return render_template('new_character.html', skill_list=SKILL_LIST)
+        
         if not all(1 <= stat <= 30 for stat in [strength, dexterity, constitution, intelligence, wisdom, charisma]):
             flash('Stats must be between 1 and 30.', 'error')
             return render_template('new_character.html', skill_list=SKILL_LIST)
@@ -193,6 +203,8 @@ def new_character():
         character = Character(
             name=name,
             level=level,
+            max_hp=max_hp,
+            current_hp=current_hp,
             strength=strength,
             dexterity=dexterity,
             constitution=constitution,
@@ -253,6 +265,8 @@ def edit_character(character_id):
         
         try:
             level = int(request.form.get('level', 1))
+            max_hp = int(request.form.get('max_hp', 10))
+            current_hp = int(request.form.get('current_hp', max_hp))
             strength = int(request.form.get('strength', 0))
             dexterity = int(request.form.get('dexterity', 0))
             constitution = int(request.form.get('constitution', 0))
@@ -271,12 +285,22 @@ def edit_character(character_id):
             flash('Level must be between 1 and 20.', 'error')
             return render_template('edit_character.html', character=character, skill_list=SKILL_LIST)
         
+        if not (1 <= max_hp <= 999):
+            flash('Max HP must be between 1 and 999.', 'error')
+            return render_template('edit_character.html', character=character, skill_list=SKILL_LIST)
+        
+        if not (0 <= current_hp <= max_hp):
+            flash('Current HP must be between 0 and Max HP.', 'error')
+            return render_template('edit_character.html', character=character, skill_list=SKILL_LIST)
+        
         if not all(1 <= stat <= 30 for stat in [strength, dexterity, constitution, intelligence, wisdom, charisma]):
             flash('Stats must be between 1 and 30.', 'error')
             return render_template('edit_character.html', character=character, skill_list=SKILL_LIST)
         
         character.name = name
         character.level = level
+        character.max_hp = max_hp
+        character.current_hp = current_hp
         character.strength = strength
         character.dexterity = dexterity
         character.constitution = constitution
