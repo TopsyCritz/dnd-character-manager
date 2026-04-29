@@ -65,6 +65,8 @@ class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     level = db.Column(db.Integer, nullable=False, default=1)
+    max_hp = db.Column(db.Integer, nullable=False, default=10)
+    current_hp = db.Column(db.Integer, nullable=False, default=10)
     strength = db.Column(db.Integer, nullable=False)
     dexterity = db.Column(db.Integer, nullable=False)
     constitution = db.Column(db.Integer, nullable=False)

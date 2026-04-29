@@ -19,8 +19,19 @@
     <div class="character-level">
         <span class="level-badge">Level {{ character.level }}</span>
         <span class="proficiency-badge">Proficiency Bonus: +{{ proficiency_bonus }}</span>
+        <span class="hp-display {% if character.current_hp < character.max_hp * 0.5 %}low-hp{% endif %}">
+            HP: {{ character.current_hp }} / {{ character.max_hp }}
+        </span>
     </div>
-
+    
+    <div class="character-details">
+        <h3>Hit Points</h3>
+        <div class="hp-bar-container">
+            <div class="hp-bar" style="width: {{ (character.current_hp / character.max_hp * 100) | int }}%;"></div>
+        </div>
+        <p class="hp-text">{{ character.current_hp }} / {{ character.max_hp }}</p>
+    </div>
+    
     <div class="character-details">
         <h3>Ability Scores</h3>
         <div class="ability-display">

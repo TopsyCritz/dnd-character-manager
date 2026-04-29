@@ -20,6 +20,7 @@
             <div class="character-card">
                 <h4>{{ character.name }}</h4>
                 <span class="character-level-small">Level {{ character.level }}</span>
+                <span class="character-hp-small">HP: {{ character.current_hp }}/{{ character.max_hp }}</span>
                 <div class="character-stats-preview">
                     <span>STR: {% if character.str_mod >= 0 %}+{% endif %}{{ character.str_mod }}</span>
                     <span>DEX: {% if character.dex_mod >= 0 %}+{% endif %}{{ character.dex_mod }}</span>
